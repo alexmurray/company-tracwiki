@@ -4,7 +4,7 @@
 
 ;;; Code:
 
-(require 'tracwiki)
+(require 'tracwiki-mode)
 
 (defvar company-tracwiki-ticket-cache nil)
 
@@ -83,6 +83,7 @@ If optional argument EP is nil, use `trac-rpc-endpoint' is used."
             (substring symbol 7)
           nil)))))
 
+;;;###autoload
 (defun company-tracwiki (command &optional arg &rest ignored)
   "Company backend for tracwiki to complete for COMMAND with ARG and IGNORED."
   (interactive (list 'interactive))
