@@ -52,7 +52,7 @@ If optional argument EP is nil, use `trac-rpc-endpoint' is used."
             trac-rpc-endpoint (plist-get tracwiki-project-info :endpoint)))
     (dolist (ticket (tracwiki-with-cache
                         'company-tracwiki-ticket-cache
-                        endpoint nil
+                        trac-rpc-endpoint nil
                       (company-tracwiki-rpc-get-all-tickets)))
       (let ((ticket-str (number-to-string ticket)))
         (when (string-prefix-p prefix ticket-str)
