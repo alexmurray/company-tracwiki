@@ -76,12 +76,16 @@ If optional argument EP is nil, use `trac-rpc-endpoint' is used."
   "Grab prefix at point."
   (let ((prefix (company-grab-symbol-cons "#" 1)))
     (if (listp prefix)
-        (car prefix)
+        (setq prefix (car prefix))
       (let ((symbol (company-grab-symbol)))
-        (message symbol)
-        (if (string-prefix-p "ticket:" symbol)
-            (substring symbol 7)
-          nil)))))
+        (setq prefix
+              (if (string-prefix-p "ticket:" symbol)
+                  (substring symbol 7)
+                nil))))
+    ;; don't accept 0 since this is an error AND 0 is not a valid ticket number
+    (if (and prefix (> (string-to-number prefix) 0))
+        prefix
+      nil)))
 
 ;;;###autoload
 (defun company-tracwiki (command &optional arg &rest ignored)
