@@ -20,9 +20,9 @@ If optional argument EP is nil, use `trac-rpc-endpoint' is used."
 (defun company-tracwiki-rpc-get-all-tickets (&optional endpoint)
   "Get list of tickets available in remote site of ENDPOINT.
 If optional argument EP is nil, use `trac-rpc-endpoint' is used."
-  (message "Getting all tickets....")
+  (message "Getting all tickets, this may take a while...")
   (let ((trac-rpc-endpoint (or endpoint trac-rpc-endpoint)))
-    (trac-rpc-call 'ticket.query)))
+    (trac-rpc-call 'ticket.query "max=0")))
 
 (defun company-tracwiki-update-ticket-cache ()
   "Update cache of wiki tickets."
