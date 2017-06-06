@@ -87,6 +87,21 @@ If optional argument EP is nil, use `trac-rpc-endpoint' is used."
         prefix
       nil)))
 
+(defun company-tracwiki--templatify (str)
+  "Insert company template for STR."
+  (let* ((end (point-marker))
+	 (beg (- (point) (length str)))
+	 (templ (company-template-declare-template beg end)))
+    ;; skip over space at start of annotation
+    (company-template-add-field templ (+ beg 1) end)
+    (company-template-move-to-first templ)))
+
+(defun company-tracwiki--post-completion (arg)
+  "Perform post-completion for ARG."
+  (let ((anno (company-tracwiki--annotation arg)))
+    (insert anno)
+    (company-tracwiki--templatify anno)))
+
 ;;;###autoload
 (defun company-tracwiki (command &optional arg &rest ignored)
   "Company backend for tracwiki to complete for COMMAND with ARG and IGNORED."
@@ -97,7 +112,8 @@ If optional argument EP is nil, use `trac-rpc-endpoint' is used."
     (candidates (company-tracwiki--candidates arg))
     (annotation (company-tracwiki--annotation arg))
     (meta (company-tracwiki--meta arg))
-    (doc-buffer (company-tracwiki--doc-buffer arg))))
+    (doc-buffer (company-tracwiki--doc-buffer arg))
+    (post-completion (company-tracwiki--post-completion arg))))
 
 (provide 'company-tracwiki)
 
